@@ -1,0 +1,18 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+
+development:
+  <<: *default
+  database: nb_challenge_development
+
+test:
+  <<: *default
+  database: nb_challenge_test
+
+production:
+  <<: *default
+  database: nb_challenge_production
+  username: nb_challenge
+  password: <%= ENV['NB_CHALLENGE_DATABASE_PASSWORD'] %>
