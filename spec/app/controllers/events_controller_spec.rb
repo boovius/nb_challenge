@@ -82,4 +82,26 @@ RSpec.describe EventsController, :type => :controller do
       end
     end
   end
+
+  describe '#summary' do
+    let(:events) do
+      list = []
+      list << create(:entry, :date => Time.parse('2014-02-15T13:00Z'))
+      list << create(:comment,
+                     :date => Time.parse('2014-02-25T13:00Z'),
+                     :data => 'foobar')
+      list << create(:entry, :date => Time.parse('2014-02-18T13:00Z'))
+      list << create(:entry, :date => Time.parse('2014-02-18T12:59Z'))
+      list << create(:highfive,
+                     :date => Time.parse('2014-02-22T13:00Z'),
+                     :data => 'foobar')
+      list << create(:highfive,
+                     :date => Time.parse('2014-02-22T13:01Z'),
+                     :data => 'foobar')
+    end
+
+    it 'returns events aggregated by kind broken down by time frame' do
+
+    end
+  end
 end
