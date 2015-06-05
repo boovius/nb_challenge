@@ -4,17 +4,20 @@ class EventsController < ApplicationController
     if event_params.errors?
       render json: {'status' => event_params.error_messages}, status: 400
     else
-      event = Event.create(
-        date: event_params.date,
-        kind: event_params.kind,
-        user: event_params.user,
-        data: event_params.data
-      )
+      event = Event.save_with_params(event_params)
       if event
         render json: {'status' => 'ok'}, status: 200
       else
         render json: {'status' => 'serverError'}, status: 400
       end
     end
+  end
+
+  def index
+    from = params['from']
+    to   = params['to']
+    from_utc = Time.parse(from)
+    to_utc = Time.parse(to)
+    @events = Event.where(date: from_utc..to_utc)
   end
 end
