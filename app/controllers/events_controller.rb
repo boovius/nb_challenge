@@ -14,12 +14,10 @@ class EventsController < ApplicationController
   end
 
   def index
-    byebug
     from = params['from']
     to   = params['to']
     from_utc = Time.parse(from)
     to_utc = Time.parse(to)
-    events = Event.where(date: from_utc..to_utc)
-    render json: events, status: 200
+    @events = Event.where(date: from_utc..to_utc)
   end
 end
