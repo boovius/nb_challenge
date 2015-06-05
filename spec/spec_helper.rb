@@ -10,11 +10,11 @@ RSpec.configure do |config|
   end
 
   config.backtrace_exclusion_patterns << /vendor\/bundle/
-    config.backtrace_exclusion_patterns << /spec\/support\/database_cleaner/
+  config.backtrace_exclusion_patterns << /spec\/support\/database_cleaner/
 
-    config.mock_with :rspec do |mocks|
-      mocks.verify_partial_doubles = true
-    end
+  config.mock_with :rspec do |mocks|
+    mocks.verify_partial_doubles = true
+  end
 
   config.disable_monkey_patching!
   config.warnings = true
