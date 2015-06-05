@@ -35,6 +35,8 @@ RSpec.describe EventsController, :type => :controller do
   end
 
   describe '#index' do
+    render_views
+
     context 'given a date range as params' do
       let(:leave) { create :leave, :date => Time.parse('2014-02-20T13:00Z') }
       let(:leave_response) do
@@ -42,7 +44,7 @@ RSpec.describe EventsController, :type => :controller do
           'date'=> '2014-02-20T13:00Z',
           'user'=> 'richard nixon',
           'kind'=> 'leave'
-        }.to_json
+        }
       end
 
       let(:events) do
@@ -55,9 +57,12 @@ RSpec.describe EventsController, :type => :controller do
       before { expect(events.count).to eq 3 }
 
       it 'returns all the events in the given range' do
-        get :index, 'from'=> '2014-02-18T13:00Z', 'to'=> '2014-02-22T13:00Z'
-        expect(response.status).to eq 200
-        expect(response.body).to eq [leave_response]
+        get :index,
+          'from'=> '2014-02-18T13:00Z', 'to'=> '2014-02-22T13:00Z',
+          format: :json
+        expect(response).to render_template("events/index")
+        response_match = /2014-02-20T13:00:00Z{1}/
+        expect(response.body).to match(response_match)
       end
     end
   end
