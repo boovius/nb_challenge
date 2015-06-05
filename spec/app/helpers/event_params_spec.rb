@@ -32,6 +32,21 @@ RSpec.describe EventParams do
       end
     end
 
+    context 'when setting params for an empty user' do
+      let(:params) do
+        {
+          'date'=> '2014-02-28T13:00Z',
+          'user'=> '',
+          'type'=> 'leave',
+        }
+      end
+
+      it 'returns an error message for no user' do
+        expect(subject.errors?).to eq true
+        expect(subject.errors[0]).to eq 'noUser'
+      end
+    end
+
     context 'when setting params for a comment' do
       let(:params) do
         {
@@ -83,6 +98,38 @@ RSpec.describe EventParams do
           expect(subject.errors?).to eq true
           expect(subject.errors[0]).to eq 'noHighFiveReceiver'
         end
+      end
+    end
+  end
+
+  describe '#error_messages' do
+    subject { described_class.new(params).error_messages }
+
+    context 'given one error' do
+      let(:params) do
+        {
+          'date'=> '2014-02-28T13:00Z',
+          'user'=> '',
+          'type'=> 'leave',
+        }
+      end
+
+      it 'returns an error message for no user' do
+        expect(subject).to eq 'noUser'
+      end
+    end
+
+    context 'given one error' do
+      let(:params) do
+        {
+          'date'=> '2014-02-28T13:00Z',
+          'user'=> '',
+          'type'=> 'foobar',
+        }
+      end
+
+      it 'returns a joined string of all the error messages' do
+        expect(subject).to eq 'noUser,invalidType'
       end
     end
   end

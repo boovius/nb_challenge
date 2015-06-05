@@ -4,12 +4,16 @@ class EventParams
   def initialize params
     @errors = []
     @date = process_date(params)
+    @user = process_user(params)
     @type = process_type(params)
-    @user = pull_user(params)
   end
 
   def errors?
     !self.errors.empty?
+  end
+
+  def error_messages
+    @errors.map { |e| "#{e}"}.join(',')
   end
 
   private
@@ -39,6 +43,14 @@ class EventParams
 
   def pull_type(params)
     params['type'] || params[:type]
+  end
+
+  def process_user(params)
+    user = pull_user(params)
+    if user == nil || user == ''
+      @errors << 'noUser'
+    end
+    user
   end
 
   def pull_user(params)
