@@ -7,26 +7,26 @@ RSpec.describe EventParams do
     context 'given good params with no extra data' do
       context 'when keys are strings' do
         let(:params) do
-          {'date'=> '2014-02-28T13:00Z', 'user'=> 'Alice', 'type'=> 'enter'}
+          {'date'=> '2014-02-28T13:00Z', 'user'=> 'Alice', 'kind'=> 'enter'}
         end
 
         it 'sets each attribute and holds no errors' do
           expect(subject.date).to eq Time.parse('2014-02-28T13:00Z')
           expect(subject.user).to eq 'Alice'
-          expect(subject.type).to eq :enter
+          expect(subject.kind).to eq :enter
           expect(subject.errors?).to be false
         end
       end
 
       context 'when keys are symbols' do
         let(:params) do
-          {:date => '2014-02-28T13:00Z', :user => 'Alice', :type => 'enter'}
+          {:date => '2014-02-28T13:00Z', :user => 'Alice', :kind => 'enter'}
         end
 
         it 'sets each attribute and holds no errors' do
           expect(subject.date).to eq Time.parse('2014-02-28T13:00Z')
           expect(subject.user).to eq 'Alice'
-          expect(subject.type).to eq :enter
+          expect(subject.kind).to eq :enter
           expect(subject.errors?).to be false
         end
       end
@@ -37,7 +37,7 @@ RSpec.describe EventParams do
         {
           'date'=> '2014-02-28T13:00Z',
           'user'=> '',
-          'type'=> 'leave',
+          'kind'=> 'leave',
         }
       end
 
@@ -52,7 +52,7 @@ RSpec.describe EventParams do
         {
           'date'=> '2014-02-28T13:00Z',
           'user'=> 'Alice',
-          'type'=> 'comment',
+          'kind'=> 'comment',
           'message' => message,
         }
       end
@@ -60,7 +60,7 @@ RSpec.describe EventParams do
       context 'given good params for a message' do
         let(:message) { 'hellooooo world' }
         it 'sets the data attribute to the message' do
-          expect(subject.type).to eq :comment
+          expect(subject.kind).to eq :comment
           expect(subject.data).to eq 'hellooooo world'
         end
       end
@@ -79,7 +79,7 @@ RSpec.describe EventParams do
         {
           'date'=> '2014-02-28T13:00Z',
           'user'=> 'Alice',
-          'type'=> 'highfive',
+          'kind'=> 'highfive',
           'otheruser' => otheruser,
         }
       end
@@ -87,7 +87,7 @@ RSpec.describe EventParams do
       context 'given another user' do
         let(:otheruser) { 'Bob' }
         it 'sets the data attribute to the otheruser' do
-          expect(subject.type).to eq :highfive
+          expect(subject.kind).to eq :highfive
           expect(subject.data).to eq 'Bob'
         end
       end
@@ -110,7 +110,7 @@ RSpec.describe EventParams do
         {
           'date'=> '2014-02-28T13:00Z',
           'user'=> '',
-          'type'=> 'leave',
+          'kind'=> 'leave',
         }
       end
 
@@ -119,17 +119,17 @@ RSpec.describe EventParams do
       end
     end
 
-    context 'given one error' do
+    context 'given more than one error' do
       let(:params) do
         {
           'date'=> '2014-02-28T13:00Z',
           'user'=> '',
-          'type'=> 'foobar',
+          'kind'=> 'foobar',
         }
       end
 
       it 'returns a joined string of all the error messages' do
-        expect(subject).to eq 'noUser,invalidType'
+        expect(subject).to eq 'noUser,invalidKind'
       end
     end
   end

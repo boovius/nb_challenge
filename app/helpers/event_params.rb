@@ -1,11 +1,11 @@
 class EventParams
-  attr_accessor :date, :type, :user, :data, :errors
+  attr_accessor :date, :kind, :user, :data, :errors
 
   def initialize params
     @errors = []
     @date = process_date(params)
     @user = process_user(params)
-    @type = process_type(params)
+    @kind = process_kind(params)
   end
 
   def errors?
@@ -26,9 +26,9 @@ class EventParams
     params['date'] || params[:date]
   end
 
-  def process_type(params)
-    type = pull_type(params).to_sym
-    case type
+  def process_kind(params)
+    kind = pull_kind(params).to_sym
+    case kind
     when :enter
     when :leave
     when :comment
@@ -36,13 +36,13 @@ class EventParams
     when :highfive
       @data = process_otheruser(params)
     else
-      @errors << 'invalidType'
+      @errors << 'invalidKind'
     end
-    type
+    kind
   end
 
-  def pull_type(params)
-    params['type'] || params[:type]
+  def pull_kind(params)
+    params['kind'] || params[:kind]
   end
 
   def process_user(params)
