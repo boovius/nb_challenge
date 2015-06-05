@@ -12,8 +12,12 @@ RSpec.describe EventsController, :type => :controller do
         {"date"=> "2014-02-28T13:00Z", "user"=> "Alice", "kind"=> "enter"}
       end
 
-      it 'returns a 200 status and body with message ok' do
+      before { expect(Event.all.count).to eq 0 }
+
+      it 'creates a new event, returns a 200 status and body with message ok' do
         post :create, post_body, :format => :json
+        expect(Event.all.count).to eq 1
+        expect(Event.first.user).to eq 'Alice'
         expect(response.status).to eq 200
         expect(response.body).to eq success_message
       end
