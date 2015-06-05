@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-RSpec.describe EventsController do
+RSpec.describe EventsController, :type => :controller do
   describe '#create' do
 
 
@@ -11,7 +11,7 @@ RSpec.describe EventsController do
       end
 
       it 'returns a 200 status and body with message ok' do
-        post :event, post_body, :format => :json
+        post :create, post_body, :format => :json
         expect(response.status).to eq 200
       end
     end
