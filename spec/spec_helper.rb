@@ -4,9 +4,6 @@ Dir['spec/support/**/*.rb'].each do |file|
   require_relative File.join('..', file)
 end
 
-# monkey patch to silence stupid warning can't get rid of
-DatabaseCleaner.instance_variable_set :@cleaners, nil
-
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
